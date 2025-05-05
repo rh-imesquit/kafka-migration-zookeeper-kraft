@@ -16,6 +16,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import io.smallrye.reactive.messaging.kafka.Record;
+
 @Path("/flight")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,7 +25,7 @@ public class FlightResource {
 
     @Inject
     @Channel("flights")
-    Emitter<String> emitter;
+    Emitter<Record<String, String>> emitter;
 
     @Inject
     ObjectMapper objectMapper;
@@ -35,10 +37,12 @@ public class FlightResource {
 
         
         for (Flight flight : flights.values()) {
+            String key = flight.getFlightNumber();
+            String value = objectMapper.writeValueAsString(flight);
 
             System.out.println("Enviando voo: " + flight.getFlightNumber());
 
-            emitter.send(objectMapper.writeValueAsString(flight));
+            emitter.send(Record.of(key, value));
         }
 
         return Response.status(Response.Status.OK).build();
