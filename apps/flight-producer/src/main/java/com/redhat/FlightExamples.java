@@ -25,7 +25,6 @@ public class FlightExamples {
         flights.put("AZ5500", new Flight("AZ5500", "ON_TIME", LocalDateTime.now().toString(), "FOR", "GRU", "E8"));
         flights.put("JJ3030", new Flight("JJ3030", "BOARDING", LocalDateTime.now().toString(), "SLZ", "BSB", "G1"));
 
-
         return flights;
     }
 }
