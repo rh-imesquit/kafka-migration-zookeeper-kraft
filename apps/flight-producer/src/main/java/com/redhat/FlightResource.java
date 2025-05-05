@@ -35,6 +35,9 @@ public class FlightResource {
 
         
         for (Flight flight : flights.values()) {
+
+            System.out.println("Enviando voo: " + flight.getFlightNumber());
+
             emitter.send(objectMapper.writeValueAsString(flight));
         }
 
